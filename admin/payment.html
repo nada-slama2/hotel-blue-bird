@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBird - Payments</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/roombook.css">
+</head>
+
+<body>
+<!-- Search Section -->
+<div class="searchsection">
+    <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
+</div>
+
+<!-- Payment Table -->
+<div class="roombooktable table-responsive-xl">
+    <table class="table table-bordered" id="paymentTable">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Room Type</th>
+            <th>Bed Type</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>No of Days</th>
+            <th>No of Rooms</th>
+            <th>Meal Type</th>
+            <th>Room Rent</th>
+            <th>Bed Rent</th>
+            <th>Meals</th>
+            <th>Total Bill</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="paymentTableBody">
+        <!-- Payment rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Sample payment data (Replace with actual API data)
+    const payments = [
+        {
+            id: 1,
+            name: "Nada Slama",
+            roomType: "Deluxe Room",
+            bed: "Double",
+            checkIn: "2024-12-01",
+            checkOut: "2024-12-05",
+            noOfDays: 4,
+            noOfRooms: 2,
+            meal: "Breakfast",
+            roomTotal: 8000,
+            bedTotal: 400,
+            mealTotal: 800,
+            finalTotal: 9200
+        },
+        {
+            id: 2,
+            name: "eya",
+            roomType: "Single Room",
+            bed: "Single",
+            checkIn: "2024-12-10",
+            checkOut: "2024-12-12",
+            noOfDays: 2,
+            noOfRooms: 1,
+            meal: "Room only",
+            roomTotal: 2000,
+            bedTotal: 100,
+            mealTotal: 0,
+            finalTotal: 2100
+        }
+    ];
+
+    // Render payment table
+    const renderTable = () => {
+        const tableBody = document.getElementById("paymentTableBody");
+        tableBody.innerHTML = "";
+        payments.forEach(payment => {
+            const row = `
+                <tr>
+                    <td>${payment.id}</td>
+                    <td>${payment.name}</td>
+                    <td>${payment.roomType}</td>
+                    <td>${payment.bed}</td>
+                    <td>${payment.checkIn}</td>
+                    <td>${payment.checkOut}</td>
+                    <td>${payment.noOfDays}</td>
+                    <td>${payment.noOfRooms}</td>
+                    <td>${payment.meal}</td>
+                    <td>${payment.roomTotal}</td>
+                    <td>${payment.bedTotal}</td>
+                    <td>${payment.mealTotal}</td>
+                    <td>${payment.finalTotal}</td>
+                    <td class="action">
+                        <button class="btn btn-primary" onclick="printInvoice(${payment.id})"><i class="fa-solid fa-print"></i> Print</button>
+                        <button class="btn btn-danger" onclick="deletePayment(${payment.id})">Delete</button>
+                    </td>
+                </tr>`;
+            tableBody.innerHTML += row;
+        });
+    };
+
+    // Delete payment entry
+    const deletePayment = (id) => {
+        const index = payments.findIndex(payment => payment.id === id);
+        if (index > -1) {
+            payments.splice(index, 1);
+            renderTable();
+        }
+    };
+
+    // Simulate printing an invoice
+    const printInvoice = (id) => {
+        const payment = payments.find(payment => payment.id === id);
+        if (payment) {
+            alert(`Printing invoice for ${payment.name}`);
+            // Redirect to the invoice page after the alert
+            setTimeout(() => {
+                window.location.href = `invoiceprint.html?id=${id}`;
+            }, 1000); // Redirect after 1 second (optional delay for user to read the alert)
+        } else {
+            alert("Payment not found!");
+        }
+    };
+
+    // Filter table rows by search input
+    const filterTable = () => {
+        const query = document.getElementById("searchBar").value.toUpperCase();
+        const rows = document.querySelectorAll("#paymentTable tbody tr");
+        rows.forEach(row => {
+            const name = row.getElementsByTagName("td")[1]?.textContent || "";
+            row.style.display = name.toUpperCase().includes(query) ? "" : "none";
+        });
+    };
+
+    // Initial render
+    renderTable();
+</script>
+</body>
+
+</html>

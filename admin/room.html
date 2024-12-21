@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBird - Room Management</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./css/room.css">
+</head>
+
+<body>
+<!-- Add Room Section -->
+<div class="addroomsection">
+    <form id="addRoomForm">
+        <label for="troom">Type of Room:</label>
+        <select name="troom" id="troom" class="form-control" required>
+            <option value="" disabled selected>Select Room Type</option>
+            <option value="Superior Room">Superior Room</option>
+            <option value="Deluxe Room">Deluxe Room</option>
+            <option value="Guest House">Guest House</option>
+            <option value="Single Room">Single Room</option>
+        </select>
+
+        <label for="bed">Type of Bed:</label>
+        <select name="bed" id="bed" class="form-control" required>
+            <option value="" disabled selected>Select Bed Type</option>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Triple">Triple</option>
+            <option value="Quad">Quad</option>
+            <option value="None">None</option>
+        </select>
+
+        <button type="submit" class="btn btn-success">Add Room</button>
+    </form>
+</div>
+
+<!-- Room List Section -->
+<div class="room" id="roomList">
+    <!-- Room cards will be dynamically added here -->
+</div>
+
+<script>
+    // Sample Room Data (Replace with API or backend data)
+    const rooms = [
+        { id: 1, type: "Superior Room", bedding: "Single" },
+        { id: 2, type: "Deluxe Room", bedding: "Double" },
+        { id: 3, type: "Guest House", bedding: "Triple" },
+        { id: 4, type: "Single Room", bedding: "None" }
+    ];
+
+    // Function to Render Room Cards
+    const renderRooms = () => {
+        const roomList = document.getElementById("roomList");
+        roomList.innerHTML = "";
+        rooms.forEach((room) => {
+            const roomCard = `
+                    <div class="roombox roombox${room.type.replace(/\s+/g, '').toLowerCase()}">
+                        <div class="text-center no-boder">
+                            <i class="fa-solid fa-bed fa-4x mb-2"></i>
+                            <h3>${room.type}</h3>
+                            <div class="mb-1">${room.bedding}</div>
+                            <button class="btn btn-danger" onclick="deleteRoom(${room.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            roomList.innerHTML += roomCard;
+        });
+    };
+
+    // Add New Room
+    document.getElementById("addRoomForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const roomType = document.getElementById("troom").value;
+        const bedType = document.getElementById("bed").value;
+        const newRoom = {
+            id: rooms.length + 1,
+            type: roomType,
+            bedding: bedType
+        };
+        rooms.push(newRoom);
+        renderRooms();
+        e.target.reset();
+    });
+
+    // Delete Room
+    const deleteRoom = (id) => {
+        const index = rooms.findIndex((room) => room.id === id);
+        if (index > -1) {
+            rooms.splice(index, 1);
+            renderRooms();
+        }
+    };
+
+    // Initial Render
+    renderRooms();
+</script>
+</body>
+
+</html>

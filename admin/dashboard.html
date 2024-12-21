@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBird - Admin Dashboard</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/dashboard.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Morris.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+</head>
+
+<body>
+    <!-- Dashboard Metrics -->
+    <div class="databox">
+        <div class="box roombookbox">
+            <h2>Total Booked Room</h2>
+            <h1 id="totalBookedRoom"></h1>
+        </div>
+        <div class="box guestbox">
+            <h2>Total Staff</h2>
+            <h1 id="totalStaff"></h1>
+        </div>
+        <div class="box profitbox">
+            <h2>Profit</h2>
+            <h1 id="totalProfit">DT</h1>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chartbox">
+        <div class="bookroomchart">
+            <canvas id="bookroomchart"></canvas>
+            <h3 style="text-align: center; margin: 10px 0;">Booked Room</h3>
+        </div>
+        <div class="profitchart">
+            <div id="profitchart"></div>
+            <h3 style="text-align: center; margin: 10px 0;">Profit</h3>
+        </div>
+    </div>
+
+    <script>
+        // Simulated Data (replace with API data)
+        const roomData = {
+            totalRooms: 100,
+            bookedRooms: 60,
+            staffCount: 25,
+            profitData: [
+                { date: '2024-12-01', profit: 500 },
+                { date: '2024-12-02', profit: 700 },
+                { date: '2024-12-03', profit: 400 },
+            ],
+            roomTypes: {
+                "Superior Room": 20,
+                "Deluxe Room": 15,
+                "Guest House": 10,
+                "Single Room": 15,
+            }
+        };
+
+        // Populate Metrics
+        document.getElementById("totalBookedRoom").textContent = `${roomData.bookedRooms} / ${roomData.totalRooms}`;
+        document.getElementById("totalStaff").textContent = roomData.staffCount;
+        const totalProfit = roomData.profitData.reduce((acc, curr) => acc + curr.profit, 0);
+        document.getElementById("totalProfit").textContent = totalProfit +"DT";
+
+        // Booked Room Chart
+        const roomLabels = Object.keys(roomData.roomTypes);
+        const roomCounts = Object.values(roomData.roomTypes);
+        const doughnutChartConfig = {
+            type: 'doughnut',
+            data: {
+                labels: roomLabels,
+                datasets: [{
+                    label: 'Booked Rooms',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderColor: 'black',
+                    data: roomCounts,
+                }]
+            },
+            options: {}
+        };
+        new Chart(document.getElementById('bookroomchart'), doughnutChartConfig);
+
+        // Profit Chart
+        Morris.Bar({
+            element: 'profitchart',
+            data: roomData.profitData,
+            xkey: 'date',
+            ykeys: ['profit'],
+            labels: ['Profit'],
+            hideHover: 'auto',
+            stacked: true,
+            barColors: ['rgba(153, 102, 255, 1)'],
+        });
+    </script>
+</body>
+
+</html>

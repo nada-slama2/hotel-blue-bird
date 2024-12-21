@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Invoice</title>
+	<style>
+		/* Reset */
+		body, h1, h2, h3, p, table, td, th {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			background-color: #f4f4f4;
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+		.invoice-container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background: #fff;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+		}
+		.invoice-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+		.invoice-header .logo {
+			max-width: 150px;
+		}
+		.invoice-header .details {
+			text-align: right;
+		}
+		.invoice-header .details h2 {
+			margin-bottom: 10px;
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+		.invoice-header .details p {
+			margin-bottom: 5px;
+			font-size: 0.9rem;
+		}
+		.invoice-info {
+			margin-bottom: 20px;
+		}
+		.invoice-info h3 {
+			font-size: 1.2rem;
+			margin-bottom: 10px;
+		}
+		.invoice-info p {
+			font-size: 0.9rem;
+			margin-bottom: 5px;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+		th, td {
+			border: 1px solid #ddd;
+			padding: 10px;
+			text-align: left;
+		}
+		th {
+			background: #f4f4f4;
+		}
+		.total-section {
+			text-align: right;
+			font-size: 1.1rem;
+		}
+		.footer {
+			text-align: center;
+			font-size: 0.8rem;
+			color: #777;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+
+<body>
+<div class="invoice-container">
+	<!-- Header Section -->
+	<div class="invoice-header">
+		<div>
+			<img src="../image/bluebirdlogo.png" width="100" alt="Hotel Logo" class="logo">
+		</div>
+		<div class="details">
+			<h2>Hotel Blue Bird</h2>
+			<p>Email: contact@bluebird.com</p>
+			<p>Phone: (+216) 95885335</p>
+		</div>
+	</div>
+
+	<!-- Recipient Information -->
+	<div class="invoice-info">
+		<h3>Invoice To:</h3>
+		<p><strong>Name:</strong> Nda Slama</p>
+		<p><strong>Invoice #:</strong> 101</p>
+		<p><strong>Date:</strong> 2024-12-01</p>
+	</div>
+
+	<!-- Table Section -->
+	<table>
+		<thead>
+		<tr>
+			<th>Item</th>
+			<th>Days</th>
+			<th>Rate (Dt)</th>
+			<th>Quantity</th>
+			<th>Price (Dt)</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>Deluxe Room</td>
+			<td>3</td>
+			<td>2000</td>
+			<td>1</td>
+			<td>6000</td>
+		</tr>
+		<tr>
+			<td>Double Bed</td>
+			<td>3</td>
+			<td>200</td>
+			<td>1</td>
+			<td>600</td>
+		</tr>
+		<tr>
+			<td>Breakfast</td>
+			<td>3</td>
+			<td>100</td>
+			<td>1</td>
+			<td>300</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<!-- Total Section -->
+	<div class="total-section">
+		<p><strong>Total:</strong> 6900 Dt</p>
+		<p><strong>Paid:</strong> 0.00 Dt</p>
+		<p><strong>Balance Due:</strong> 6900 Dt</p>
+	</div>
+
+	<!-- Footer Section -->
+	<div class="footer">
+		<p>Thank you for staying with us!</p>
+		<p>Hotel Blue Bird, (+91) 95885335, www.bluebird.com</p>
+	</div>
+</div>
+</body>
+
+</html>
